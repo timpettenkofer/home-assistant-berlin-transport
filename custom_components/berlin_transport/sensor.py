@@ -123,7 +123,7 @@ class TransportSensor(SensorEntity):
     def fetch_departures(self) -> Optional[list[Departure]]:
         try:
             response = requests.get(
-                url=f"{API_ENDPOINT}/stops/{self.stop_id}/departures",
+                url=f"{API_ENDPOINT}/stops/{self.stop_id}/departures?duration=20",    #add "?duration=20" to extend connections to a period of 20 minutes instead of 10 minutes (default)
                 params={
                     "when": (
                         datetime.utcnow() + timedelta(minutes=self.walking_time)
