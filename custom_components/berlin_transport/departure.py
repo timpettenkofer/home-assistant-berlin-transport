@@ -14,6 +14,8 @@ class Departure:
     line_type: str
     timestamp: datetime
     time: datetime
+    now: datetime                     # adding "now" to class departure
+    current_time: datetime            # adding "current_time" to class departure
     direction: str | None = None
     icon: str | None = None
     bg_color: str | None = None
@@ -26,12 +28,15 @@ class Departure:
         line_type = source.get("line", {}).get("product")
         line_visuals = TRANSPORT_TYPE_VISUALS.get(line_type) or {}
         timestamp=datetime.fromisoformat(source.get("when") or source.get("plannedWhen"))
+        now=datetime.now()            # current time added to implement countdown
+        
         return cls(
             trip_id=source["tripId"],
             line_name=source.get("line", {}).get("name"),
             line_type=line_type,
             timestamp=timestamp,
             time=timestamp.strftime("%H:%M"),
+            current_time=now.strftime("%H:%M"),    # current time format
             direction=source.get("direction"),
             icon=line_visuals.get("icon") or DEFAULT_ICON,
             bg_color=source.get("line", {}).get("color", {}).get("bg"),
