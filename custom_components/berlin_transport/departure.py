@@ -16,6 +16,7 @@ class Departure:
     time: datetime
     now: datetime                     # adding "now" to class departure
     current_time: datetime            # adding "current_time" to class departure
+    countdown: datetime               # adding "countdown" to class departure
     direction: str | None = None
     icon: str | None = None
     bg_color: str | None = None
@@ -37,6 +38,7 @@ class Departure:
             timestamp=timestamp,
             time=timestamp.strftime("%H:%M"),
             current_time=now.strftime("%H:%M"),    # current time format
+            countdown=time-current_time            # calculate countdown (time delta between timestamp and now)
             direction=source.get("direction"),
             icon=line_visuals.get("icon") or DEFAULT_ICON,
             bg_color=source.get("line", {}).get("color", {}).get("bg"),
@@ -55,7 +57,7 @@ class Departure:
         return {
             "line_name": self.line_name,
             "line_type": self.line_type,
-            "time": self.time,
+            "time": self.countdown,            #  zuvor: "time": self.time, 
             "direction": self.direction,
             "color": color,
             "cancelled": self.cancelled,
